@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile - EcoTrack</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #f5f7f2;
+      --forest-green: #1b4332;
+      --forest-green-hover: #2d6a4f;
+      --text-dark: #1b4332;
+      --text-muted: #678c7c;
+      --card-bg: #ffffff;
+      --card-shadow: 0 8px 24px rgba(27, 67, 50, 0.04);
+      --accent-yellow: #f5b041;
+      --accent-yellow-bg: #fef5e7;
+      --border-color: #e2e8e4;
+      --error: #e74c3c;
+      --success: #27ae60;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: #2c3e50;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header Design */
+    header {
+      background-color: var(--forest-green);
+      color: #ffffff;
+      padding: 16px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .school-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .school-logo {
+      background-color: #52be80;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: white;
+    }
+
+    .school-titles h1 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .school-titles p {
+      font-size: 12px;
+      color: #a9dfbf;
+      font-weight: 400;
+    }
+
+    .btn-back {
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: none;
+      color: white;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-back:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-color: white;
+    }
+
+    /* Layout */
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+      flex-grow: 1;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    @media (min-width: 900px) {
+      .container {
+        grid-template-columns: 1fr 2fr;
+      }
+    }
+
+    /* Section Headings */
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex-grow: 1;
+      height: 1px;
+      background-color: #d5dbdb;
+    }
+
+    /* Cards */
+    .card {
+      background-color: var(--card-bg);
+      border-radius: 18px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--card-shadow);
+      padding: 24px;
+    }
+
+    /* User Profile Card details */
+    .profile-card {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .avatar-large {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background-color: var(--accent-yellow);
+      color: var(--forest-green);
+      font-weight: 800;
+      font-size: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .user-name {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .user-email {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .role-badge {
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background-color: #d4efdf;
+      color: #196f3d;
+      margin-top: 4px;
+    }
+
+    .user-class-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--forest-green);
+      background-color: var(--bg-main);
+      padding: 4px 12px;
+      border-radius: 8px;
+    }
+
+    /* User Stats Card */
+    .stats-row {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    .stat-item {
+      background-color: var(--bg-main);
+      padding: 14px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .stat-val {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--forest-green);
+    }
+
+    /* Forms */
+    .form-group {
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group input, .form-group select {
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid #d5dbdb;
+      background-color: #f8f9f9;
+      color: #34495e;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      border-color: #52be80;
+      background-color: #ffffff;
+      box-shadow: 0 0 0 3px rgba(82, 190, 128, 0.1);
+    }
+
+    .btn-submit {
+      background-color: var(--forest-green);
+      color: white;
+      padding: 12px;
+      width: 100%;
+      border-radius: 12px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 15px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-submit:hover {
+      background-color: var(--forest-green-hover);
+    }
+
+    /* Alerts */
+    .alert {
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    .alert-error {
+      background-color: #fadbd8;
+      border: 1px solid #f5b7b1;
+      color: #78281f;
+    }
+
+    .alert-success {
+      background-color: #d4efdf;
+      border: 1px solid #a9dfbf;
+      color: #196f3d;
+    }
+
+    /* Tables */
+    .table-responsive {
+      overflow-x: auto;
+      margin-top: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th {
+      background-color: #f2f4f4;
+      padding: 12px;
+      font-weight: 600;
+      color: var(--text-dark);
+      text-align: left;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #f2f4f4;
+      color: #34495e;
+    }
+
+    footer {
+      background-color: var(--forest-green);
+      color: #ffffff;
+      padding: 30px 20px;
+      text-align: center;
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="school-info">
+      <div class="school-logo">🍃</div>
+      <div class="school-titles">
+        <h1>Graphite Higher Secondary School</h1>
+        <p>Green Campus Initiative - User Profile</p>
+      </div>
+    </div>
+    <a href="index.html" class="btn-back">◀ Back to Dashboard</a>
+  </header>
+
+  <div class="container">
+    <!-- Left Column: User Profile Card -->
+    <div class="profile-card-container">
+      <div class="section-title">👤 My Account</div>
+      <div class="card profile-card">
+        <div class="avatar-large" id="profileAvatar">U</div>
+        <div class="user-name" id="userName">User Name</div>
+        <div class="user-email" id="userEmail">user@school.com</div>
+        <div class="role-badge" id="roleBadge">Student</div>
+        <div class="user-class-label" id="classLabel" style="display: none;">Class</div>
+
+        <!-- Contribution Stats -->
+        <div class="stats-row">
+          <div class="stat-item">
+            <span class="stat-label">Total Contribution</span>
+            <span class="stat-val" id="totalContribution">0.0 kg</span>
+          </div>
+          <div class="stat-item" id="classRankRow" style="display: none;">
+            <span class="stat-label">Class Rank</span>
+            <span class="stat-val" id="classRank" style="color: #d4ac0d;"># -</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Admin Panel (Only shown to admins) -->
+    <div id="adminPanel" style="display: none; flex-direction: column; gap: 30px;">
+      <!-- Register User Form -->
+      <div>
+        <div class="section-title">➕ Create User Profile</div>
+        <div class="card">
+          <div id="alert" class="alert"></div>
+          <form id="registerForm" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+            <div class="form-group">
+              <label for="regName">Full Name</label>
+              <input type="text" id="regName" required placeholder="e.g. Jane Doe">
+            </div>
+            <div class="form-group">
+              <label for="regEmail">Email Address</label>
+              <input type="email" id="regEmail" required placeholder="e.g. jane@school.com">
+            </div>
+            <div class="form-group">
+              <label for="regPassword">Password</label>
+              <input type="password" id="regPassword" required placeholder="••••••••">
+            </div>
+            <div class="form-group">
+              <label for="regRole">Role</label>
+              <select id="regRole" required>
+                <option value="student">Student</option>
+                <option value="teacher">Teacher</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+            <div class="form-group" id="regClassGroup">
+              <label for="regClass">Class / Section</label>
+              <select id="regClass">
+                <option value="Class 8-A">Class 8-A</option>
+                <option value="Class 8-B">Class 8-B</option>
+                <option value="Class 9-A">Class 9-A</option>
+                <option value="Class 9-B">Class 9-B</option>
+                <option value="Class 10-A">Class 10-A</option>
+                <option value="Class 10-B">Class 10-B</option>
+                <option value="Class 11-Science">Class 11-Science</option>
+                <option value="Class 11-Commerce">Class 11-Commerce</option>
+                <option value="Class 11-Arts">Class 11-Arts</option>
+                <option value="Class 12-Science">Class 12-Science</option>
+                <option value="Class 12-Commerce">Class 12-Commerce</option>
+                <option value="Class 12-Arts">Class 12-Arts</option>
+              </select>
+            </div>
+            <div class="form-group" style="grid-column: span 2; display: flex; align-items: flex-end; margin-bottom: 8px;">
+              <button type="submit" class="btn-submit" style="height: 42px;">Create Account</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Registered Users Table -->
+      <div>
+        <div class="section-title">👥 Registered Users & Credentials</div>
+        <div class="card">
+          <div style="margin-bottom: 16px; display: flex; gap: 12px; align-items: center;">
+            <input type="text" id="userSearchInput" placeholder="🔍 Search student / teacher by name or class..." oninput="filterUsersList()" style="padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border-color); font-size: 14px; flex-grow: 1; outline: none; background-color: #f8f9f9;">
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Username / Email</th>
+                  <th>Role</th>
+                  <th>Class</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="usersList">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Graphite Higher Secondary School • EcoTrack Recycling Portal • Academic Year 2025–26</p>
+    <p>Every kilogram counts. Together we build a greener future. 🌱</p>
+  </footer>
+
+  <script>
+    const token = localStorage.getItem('token');
+    const userStr = localStorage.getItem('user');
+
+    if (!token || !userStr) {
+      window.location.href = 'login.html';
+    }
+
+    const currentUser = JSON.parse(userStr);
+
+    // Fill own profile card
+    document.getElementById('userName').textContent = currentUser.name;
+    document.getElementById('userEmail').textContent = currentUser.email || '';
+    
+    const roleBadge = document.getElementById('roleBadge');
+    roleBadge.textContent = currentUser.role;
+    if (currentUser.role === 'admin') {
+      roleBadge.style.backgroundColor = '#fadbd8';
+      roleBadge.style.color = '#78281f';
+    } else if (currentUser.role === 'teacher') {
+      roleBadge.style.backgroundColor = '#ddebfa';
+      roleBadge.style.color = '#1f4e78';
+    }
+
+    // Initials
+    const initials = currentUser.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+    document.getElementById('profileAvatar').textContent = initials;
+
+    if (currentUser.class) {
+      const classLabel = document.getElementById('classLabel');
+      classLabel.textContent = currentUser.class;
+      classLabel.style.display = 'inline-block';
+    }
+
+    // API helper
+    async function authFetch(url, options = {}) {
+      const headers = {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        ...(options.headers || {})
+      };
+      const response = await fetch(url, { ...options, headers });
+      if (response.status === 401) {
+        localStorage.clear();
+        window.location.href = 'login.html';
+        return;
+      }
+      return response;
+    }
+
+    // Fetch stats
+    async function loadStats() {
+      const res = await authFetch('/api/stats/my-profile');
+      if (!res) return;
+      const data = await res.json();
+      
+      document.getElementById('totalContribution').textContent = `${data.totalContribution.toFixed(1)} kg`;
+      
+      if (data.role === 'student') {
+        document.getElementById('classRankRow').style.display = 'flex';
+        if (data.rank !== '-') {
+          document.getElementById('classRank').textContent = `#${data.rank} of ${data.classTotalStudents}`;
+        } else {
+          document.getElementById('classRank').textContent = 'Not Ranked';
+        }
+      }
+    }
+
+    // Admin UI toggle and handlers
+    if (currentUser.role === 'admin') {
+      document.getElementById('adminPanel').style.display = 'flex';
+
+      const regRole = document.getElementById('regRole');
+      const regClassGroup = document.getElementById('regClassGroup');
+
+      function toggleRegClass() {
+        if (regRole.value === 'student') {
+          regClassGroup.style.display = 'flex';
+        } else {
+          regClassGroup.style.display = 'none';
+        }
+      }
+      regRole.addEventListener('change', toggleRegClass);
+      toggleRegClass();
+
+      // Submit new user
+      document.getElementById('registerForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const alertBox = document.getElementById('alert');
+        alertBox.style.display = 'none';
+
+        const payload = {
+          name: document.getElementById('regName').value,
+          email: document.getElementById('regEmail').value,
+          password: document.getElementById('regPassword').value,
+          role: regRole.value,
+          class: document.getElementById('regClass').value
+        };
+
+        try {
+          const response = await authFetch('/api/auth/register', {
+            method: 'POST',
+            body: JSON.stringify(payload)
+          });
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.error || 'Registration failed');
+
+          alertBox.textContent = `User ${data.name} successfully created!`;
+          alertBox.className = 'alert alert-success';
+          alertBox.style.display = 'block';
+          
+          document.getElementById('registerForm').reset();
+          toggleRegClass();
+          loadUsersList();
+        } catch (err) {
+          alertBox.textContent = err.message;
+          alertBox.className = 'alert alert-error';
+          alertBox.style.display = 'block';
+        }
+      });
+
+      let allUsers = [];
+
+      // Load users table
+      async function loadUsersList() {
+        const res = await authFetch('/api/auth/users');
+        if (!res) return;
+        allUsers = await res.json();
+        renderUsers(allUsers);
+      }
+
+      function renderUsers(users) {
+        const tbody = document.getElementById('usersList');
+        tbody.innerHTML = '';
+
+        users.forEach(u => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td style="font-weight: 600;">${u.name}</td>
+            <td style="font-family: monospace;">${u.email}</td>
+            <td style="text-transform: capitalize;">${u.role}</td>
+            <td>${u.class || '-'}</td>
+            <td>
+              <button onclick="resetUserPassword('${u._id || u.id}', '${u.name}')" style="background: none; border: none; color: #2980b9; font-weight: 600; cursor: pointer; font-size: 13px;">🔑 Reset Password</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      window.filterUsersList = function() {
+        const query = document.getElementById('userSearchInput').value.toLowerCase();
+        const filtered = allUsers.filter(u => 
+          u.name.toLowerCase().includes(query) || 
+          u.email.toLowerCase().includes(query) ||
+          (u.class && u.class.toLowerCase().includes(query))
+        );
+        renderUsers(filtered);
+      }
+
+      window.resetUserPassword = async function(userId, name) {
+        const newPass = prompt(`Set new password for ${name}:`);
+        if (!newPass) return;
+        
+        try {
+          const res = await authFetch(`/api/auth/reset-password/${userId}`, {
+            method: 'PUT',
+            body: JSON.stringify({ newPassword: newPass })
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.error || 'Failed to reset password');
+          alert(data.message);
+        } catch (err) {
+          alert('Error: ' + err.message);
+        }
+      }
+
+      loadUsersList();
+    }
+
+    loadStats();
+  </script>
+</body>
+</html>

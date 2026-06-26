@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register User - EcoTrack Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #f5f7f2;
+      --forest-green: #1b4332;
+      --forest-green-hover: #2d6a4f;
+      --text-dark: #1b4332;
+      --text-muted: #678c7c;
+      --card-bg: #ffffff;
+      --border-color: #e2e8e4;
+      --error: #e74c3c;
+      --success: #27ae60;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: #2c3e50;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .admin-container {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 40px;
+      width: 100%;
+      max-width: 460px;
+      box-shadow: 0 10px 30px rgba(27, 67, 50, 0.05);
+    }
+
+    .header-area {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .header-area h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .btn-back {
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid var(--border-color);
+      background-color: white;
+      color: var(--text-dark);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .btn-back:hover {
+      background-color: #f2f4f4;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group input, .form-group select {
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid #d5dbdb;
+      background-color: #f8f9f9;
+      color: #34495e;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      border-color: #52be80;
+      background-color: #ffffff;
+      box-shadow: 0 0 0 3px rgba(82, 190, 128, 0.1);
+    }
+
+    .btn-submit {
+      background-color: var(--forest-green);
+      color: white;
+      padding: 12px;
+      width: 100%;
+      border-radius: 12px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 15px;
+      transition: all 0.2s ease;
+      margin-top: 10px;
+    }
+
+    .btn-submit:hover {
+      background-color: var(--forest-green-hover);
+      transform: translateY(-1px);
+    }
+
+    .alert {
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .alert-error {
+      background-color: #fadbd8;
+      border: 1px solid #f5b7b1;
+      color: #78281f;
+    }
+
+    .alert-success {
+      background-color: #d4efdf;
+      border: 1px solid #a9dfbf;
+      color: #196f3d;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-container">
+    <div class="header-area">
+      <h1>Register User</h1>
+      <a href="index.html" class="btn-back">◀ Dashboard</a>
+    </div>
+
+    <div id="alert" class="alert"></div>
+
+    <form id="registerForm">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" required placeholder="e.g. Jane Doe">
+      </div>
+      <div class="form-group">
+        <label for="email">School Email</label>
+        <input type="email" id="email" required placeholder="e.g. jane@school.com">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" required placeholder="••••••••">
+      </div>
+      <div class="form-group">
+        <label for="role">User Role</label>
+        <select id="role" required>
+          <option value="student">Student (Log only)</option>
+          <option value="teacher">Teacher (Log, edit/delete own entries)</option>
+          <option value="admin">Admin (Full permissions)</option>
+        </select>
+      </div>
+      <div class="form-group" id="classGroup">
+        <label for="classInput">Class / Section</label>
+        <input type="text" id="classInput" placeholder="e.g. Class 8-A">
+      </div>
+
+      <button type="submit" class="btn-submit">Register User</button>
+    </form>
+  </div>
+
+  <script>
+    const token = localStorage.getItem('token');
+    const userStr = localStorage.getItem('user');
+
+    if (!token || !userStr) {
+      window.location.href = 'login.html';
+    }
+
+    const currentUser = JSON.parse(userStr);
+    if (currentUser.role !== 'admin') {
+      window.location.href = 'index.html';
+    }
+
+    const form = document.getElementById('registerForm');
+    const alertBox = document.getElementById('alert');
+    const roleSelect = document.getElementById('role');
+    const classGroup = document.getElementById('classGroup');
+
+    function toggleClassField() {
+      if (roleSelect.value === 'student') {
+        classGroup.style.display = 'flex';
+      } else {
+        classGroup.style.display = 'none';
+      }
+    }
+
+    roleSelect.addEventListener('change', toggleClassField);
+    toggleClassField();
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      alertBox.style.display = 'none';
+
+      const payload = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value,
+        role: roleSelect.value,
+        class: document.getElementById('classInput').value
+      };
+
+      try {
+        const response = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to register user');
+        }
+
+        alertBox.textContent = `Successfully registered ${data.name} as a ${data.role}!`;
+        alertBox.className = 'alert alert-success';
+        alertBox.style.display = 'block';
+
+        form.reset();
+      } catch (err) {
+        alertBox.textContent = err.message;
+        alertBox.className = 'alert alert-error';
+        alertBox.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>

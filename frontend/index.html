@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoTrack - Graphite Higher Secondary School</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #f5f7f2;
+      --forest-green: #1b4332;
+      --forest-green-hover: #2d6a4f;
+      --text-dark: #1b4332;
+      --text-muted: #678c7c;
+      --card-bg: #ffffff;
+      --card-shadow: 0 8px 24px rgba(27, 67, 50, 0.04);
+      --accent-yellow: #f5b041;
+      --accent-yellow-bg: #fef5e7;
+      --border-color: #e2e8e4;
+      --error: #e74c3c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: #2c3e50;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header Design */
+    header {
+      background-color: var(--forest-green);
+      color: #ffffff;
+      padding: 16px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .school-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .school-logo {
+      background-color: #52be80;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: white;
+    }
+
+    .school-titles h1 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .school-titles p {
+      font-size: 12px;
+      color: #a9dfbf;
+      font-weight: 400;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .badge-year {
+      background-color: var(--accent-yellow);
+      color: var(--forest-green);
+      font-weight: 700;
+      font-size: 12px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .user-pill {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .role-indicator {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      background-color: #52be80;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    .btn-logout {
+      background: none;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 30px;
+      font-size: 12px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .btn-logout:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-color: white;
+    }
+
+    /* Container & Layout */
+    .container {
+      max-width: 1300px;
+      margin: 30px auto;
+      padding: 0 20px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    /* Section Headings with Green Lines */
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 5px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex-grow: 1;
+      height: 1px;
+      background-color: #d5dbdb;
+    }
+
+    /* Cards Styling */
+    .card {
+      background-color: var(--card-bg);
+      border-radius: 18px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--card-shadow);
+      padding: 24px;
+    }
+
+    /* Input Controls */
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: flex-end;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex-grow: 1;
+      min-width: 180px;
+    }
+
+    .form-group label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group input, .form-group select {
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid #d5dbdb;
+      background-color: #f8f9f9;
+      color: #34495e;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      border-color: #52be80;
+      background-color: #ffffff;
+      box-shadow: 0 0 0 3px rgba(82, 190, 128, 0.1);
+    }
+
+    .btn-submit {
+      background-color: var(--forest-green);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 12px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 46px;
+    }
+
+    .btn-submit:hover {
+      background-color: var(--forest-green-hover);
+      transform: translateY(-1px);
+    }
+
+    /* Category Widgets Grid */
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+    }
+
+    .category-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: var(--card-shadow);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+    }
+
+    .category-icon {
+      font-size: 32px;
+    }
+
+    .category-name {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text-dark);
+      text-transform: capitalize;
+    }
+
+    .category-value {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--forest-green);
+    }
+
+    .category-goal {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .category-edit-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 11px;
+      color: #3498db;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    /* Double Column Layout */
+    .two-columns {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    @media (min-width: 900px) {
+      .two-columns {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    /* Stats Quick Dashboard Row */
+    .stats-summary-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 10px;
+    }
+
+    .summary-card {
+      flex-grow: 1;
+      background: linear-gradient(135deg, #ebf5fb, #ebf5eb);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .summary-icon {
+      font-size: 28px;
+    }
+
+    .summary-details h4 {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .summary-details p {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--forest-green);
+    }
+
+    /* Leaderboard & Ledger */
+    .leaderboard-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .leaderboard-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background-color: #fcfcfc;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+    }
+
+    .rank-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .rank-badge {
+      width: 24px;
+      height: 24px;
+      background-color: var(--bg-main);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .leaderboard-item:nth-child(1) .rank-badge { background-color: #f4d03f; color: #78281f; }
+    .leaderboard-item:nth-child(2) .rank-badge { background-color: #d5dbdb; color: #1b4f72; }
+    .leaderboard-item:nth-child(3) .rank-badge { background-color: #e59866; color: #7e5109; }
+
+    /* Tables */
+    .table-responsive {
+      overflow-x: auto;
+      margin-top: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th {
+      background-color: #f2f4f4;
+      padding: 12px;
+      font-weight: 600;
+      color: var(--text-dark);
+      text-align: left;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #f2f4f4;
+      color: #34495e;
+    }
+
+    .actions-cell {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-edit {
+      color: #3498db;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn-delete {
+      color: var(--error);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    /* Modal box */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(27, 67, 50, 0.4);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: white;
+      border-radius: 18px;
+      padding: 24px;
+      width: 90%;
+      max-width: 450px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      color: var(--text-dark);
+    }
+
+    .modal-close {
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .modal-body {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 16px;
+    }
+
+    .btn-page {
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background-color: white;
+      color: var(--text-dark);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .btn-page:disabled {
+      color: #bdc3c7;
+      cursor: not-allowed;
+    }
+
+    /* Filter Bar */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+      align-items: center;
+    }
+
+    .filter-bar select, .filter-bar input {
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      font-size: 13px;
+    }
+
+    /* Footer Design */
+    footer {
+      background-color: var(--forest-green);
+      color: #ffffff;
+      padding: 30px 20px;
+      text-align: center;
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: auto;
+    }
+
+    footer p {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="school-info">
+      <div class="school-logo">🍃</div>
+      <div class="school-titles">
+        <h1>Graphite Higher Secondary School</h1>
+        <p>Green Campus Initiative - Recycling Tracker</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="badge-year">
+        ♻️ EcoTrack 2025–26
+      </div>
+      <a href="profile.html" style="text-decoration: none;">
+        <div id="userAvatar" style="width: 40px; height: 40px; border-radius: 50%; background-color: var(--accent-yellow); color: var(--forest-green); font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center; border: 2px solid white; cursor: pointer; transition: all 0.2s ease;" title="View Profile">
+          G
+        </div>
+      </a>
+      <a href="admin.html" id="adminPanelLink" class="btn-logout" style="display: none; text-decoration: none;">Admin Panel</a>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Recycling Categories Summary -->
+    <div>
+      <div class="section-title">Recycling Categories</div>
+      <div class="categories-grid" id="categoriesGrid">
+        <!-- Filled Dynamically -->
+      </div>
+    </div>
+
+
+
+    <!-- Quick Stats -->
+    <div class="stats-summary-row">
+      <div class="summary-card">
+        <span class="summary-icon">🌍</span>
+        <div class="summary-details">
+          <h4>Total Weight Saved</h4>
+          <p id="statTotal">0.0 kg</p>
+        </div>
+      </div>
+      <div class="summary-card">
+        <span class="summary-icon">📅</span>
+        <div class="summary-details">
+          <h4>Collected This Week</h4>
+          <p id="statWeek">0.0 kg</p>
+        </div>
+      </div>
+      <div class="summary-card">
+        <span class="summary-icon">🏫</span>
+        <div class="summary-details">
+          <h4>Participating Classes</h4>
+          <p id="statClasses">0</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Log a Recycling Entry -->
+    <div id="logEntrySection">
+      <div class="section-title">Log a Recycling Entry</div>
+      <div class="card" style="margin-top: 15px;">
+        <form id="entryForm">
+          <div class="form-row">
+            <div class="form-group" style="flex: 2;">
+              <label for="class">Class / Section</label>
+              <select id="class" required>
+                <option value="Class 8-A">Class 8-A</option>
+                <option value="Class 8-B">Class 8-B</option>
+                <option value="Class 9-A">Class 9-A</option>
+                <option value="Class 9-B">Class 9-B</option>
+                <option value="Class 10-A">Class 10-A</option>
+                <option value="Class 10-B">Class 10-B</option>
+                <option value="Class 11-Science">Class 11-Science</option>
+                <option value="Class 11-Commerce">Class 11-Commerce</option>
+                <option value="Class 11-Arts">Class 11-Arts</option>
+                <option value="Class 12-Science">Class 12-Science</option>
+                <option value="Class 12-Commerce">Class 12-Commerce</option>
+                <option value="Class 12-Arts">Class 12-Arts</option>
+              </select>
+            </div>
+            <div class="form-group" style="flex: 1.5;">
+              <label for="category">Category</label>
+              <select id="category" required>
+                <option value="organic">🌱 Organic</option>
+                <option value="paper">📄 Paper</option>
+                <option value="plastic">🥤 Plastic</option>
+                <option value="metal">🥫 Metal</option>
+                <option value="glass">🧪 Glass</option>
+                <option value="ewaste">🔌 E-Waste</option>
+              </select>
+            </div>
+            <div class="form-group" style="flex: 1.5;">
+              <label for="kg">Weight (kg)</label>
+              <input type="number" id="kg" step="0.1" min="0.1" max="500" required placeholder="e.g. 2.5">
+            </div>
+            <div class="form-group" style="display: none;">
+              <input type="date" id="entry_date" required>
+            </div>
+            <button type="submit" class="btn-submit">+ Log Entry</button>
+          </div>
+          <div class="form-row" style="margin-top: 16px;">
+            <div class="form-group">
+              <label for="logged_by">Student Name</label>
+              <input list="studentsDatalist" id="logged_by" required placeholder="Type or select student name...">
+              <datalist id="studentsDatalist"></datalist>
+            </div>
+            <div class="form-group" style="flex: 2;">
+              <label for="notes">Notes / Comments</label>
+              <input type="text" id="notes" placeholder="e.g. Library waste paper">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Leaderboard and Recent Entries side-by-side -->
+    <div class="two-columns">
+      <!-- Leaderboard -->
+      <div>
+        <div class="section-title">🏆 Class Leaderboard</div>
+        <div class="card" style="margin-top: 15px;">
+          <div class="leaderboard-list" id="leaderboardList">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Ledger -->
+      <div>
+        <div class="section-title">📋 Recent Entries</div>
+        <div class="card" style="margin-top: 15px;">
+          <div class="filter-bar">
+            <select id="filterClass" onchange="fetchEntries()">
+              <option value="">All Classes</option>
+              <option value="Class 8-A">Class 8-A</option>
+              <option value="Class 8-B">Class 8-B</option>
+              <option value="Class 9-A">Class 9-A</option>
+              <option value="Class 9-B">Class 9-B</option>
+              <option value="Class 10-A">Class 10-A</option>
+              <option value="Class 10-B">Class 10-B</option>
+              <option value="Class 11-Science">Class 11-Science</option>
+              <option value="Class 11-Commerce">Class 11-Commerce</option>
+              <option value="Class 11-Arts">Class 11-Arts</option>
+              <option value="Class 12-Science">Class 12-Science</option>
+              <option value="Class 12-Commerce">Class 12-Commerce</option>
+              <option value="Class 12-Arts">Class 12-Arts</option>
+            </select>
+            <select id="filterCategory" onchange="fetchEntries()">
+              <option value="">All Categories</option>
+              <option value="organic">Organic</option>
+              <option value="paper">Paper</option>
+              <option value="plastic">Plastic</option>
+              <option value="metal">Metal</option>
+              <option value="glass">Glass</option>
+              <option value="ewaste">E-Waste</option>
+            </select>
+            <button class="btn-page" onclick="exportCSV()" style="margin-left: auto;">📥 Export CSV</button>
+          </div>
+
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Class</th>
+                  <th>Category</th>
+                  <th>Weight</th>
+                  <th>Date</th>
+                  <th id="actionsHeader">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="entriesBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination">
+            <button class="btn-page" id="prevPageBtn" onclick="changePage(-1)">◀ Prev</button>
+            <span id="pageDisplay" style="font-size: 13px; color: var(--text-muted);">Page 1</span>
+            <button class="btn-page" id="nextPageBtn" onclick="changePage(1)">Next ▶</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Goal Editing Modal -->
+  <div class="modal" id="editGoalModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalGoalTitle">Edit Goal</h3>
+        <span class="modal-close" onclick="closeGoalModal()">&times;</span>
+      </div>
+      <form id="editGoalForm" class="modal-body">
+        <input type="hidden" id="editGoalCategory">
+        <div class="form-group">
+          <label for="editGoalTarget">Target Target (kg)</label>
+          <input type="number" id="editGoalTarget" step="1" required>
+        </div>
+        <button type="submit" class="btn-submit" style="width: 100%; justify-content: center;">Save Changes</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Entry Editing Modal -->
+  <div class="modal" id="editEntryModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Edit Recycling Entry</h3>
+        <span class="modal-close" onclick="closeEntryModal()">&times;</span>
+      </div>
+      <form id="editEntryForm" class="modal-body">
+        <input type="hidden" id="editEntryId">
+        <div class="form-group">
+          <label>Class / Section</label>
+          <select id="editEntryClass" required>
+            <option value="Class 8-A">Class 8-A</option>
+            <option value="Class 8-B">Class 8-B</option>
+            <option value="Class 9-A">Class 9-A</option>
+            <option value="Class 9-B">Class 9-B</option>
+            <option value="Class 10-A">Class 10-A</option>
+            <option value="Class 10-B">Class 10-B</option>
+            <option value="Class 11-Science">Class 11-Science</option>
+            <option value="Class 11-Commerce">Class 11-Commerce</option>
+            <option value="Class 11-Arts">Class 11-Arts</option>
+            <option value="Class 12-Science">Class 12-Science</option>
+            <option value="Class 12-Commerce">Class 12-Commerce</option>
+            <option value="Class 12-Arts">Class 12-Arts</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="editEntryCategory" required>
+            <option value="organic">Organic</option>
+            <option value="paper">Paper</option>
+            <option value="plastic">Plastic</option>
+            <option value="metal">Metal</option>
+            <option value="glass">Glass</option>
+            <option value="ewaste">E-Waste</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Weight (kg)</label>
+          <input type="number" id="editEntryKg" step="0.1" required>
+        </div>
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" id="editEntryDate" required>
+        </div>
+        <div class="form-group">
+          <label>Student Name</label>
+          <input list="editStudentsDatalist" id="editEntryLoggedBy" required placeholder="Type or select student name...">
+          <datalist id="editStudentsDatalist"></datalist>
+        </div>
+        <button type="submit" class="btn-submit" style="width: 100%; justify-content: center;">Update Entry</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>Graphite Higher Secondary School • EcoTrack Recycling Portal • Academic Year 2025–26</p>
+    <p>Every kilogram counts. Together we build a greener future. 🌱</p>
+  </footer>
+
+  <script>
+    // Authentication
+    const token = localStorage.getItem('token');
+    const userStr = localStorage.getItem('user');
+
+    if (!token || !userStr) {
+      logout();
+    }
+
+    const currentUser = JSON.parse(userStr);
+    const initials = currentUser.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+    document.getElementById('userAvatar').textContent = initials;
+
+    if (currentUser.role === 'admin') {
+      document.getElementById('adminPanelLink').style.display = 'inline-flex';
+    } else if (currentUser.role === 'student') {
+      document.getElementById('logEntrySection').style.display = 'none';
+    }
+
+    // Prefill Date
+    document.getElementById('entry_date').value = new Date().toISOString().slice(0, 10);
+
+    const studentMap = {};
+    const reverseStudentMap = {};
+
+    async function fetchStudents() {
+      if (currentUser.role === 'student') return;
+      const res = await authFetch('/api/auth/students');
+      if (!res) return;
+      const students = await res.json();
+      
+      const loggedByDatalist = document.getElementById('studentsDatalist');
+      const editLoggedByDatalist = document.getElementById('editStudentsDatalist');
+      
+      loggedByDatalist.innerHTML = '';
+      editLoggedByDatalist.innerHTML = '';
+      
+      students.forEach(student => {
+        const nameKey = student.name.toLowerCase();
+        studentMap[nameKey] = student._id || student.id;
+        reverseStudentMap[student._id || student.id] = student.name;
+
+        const opt1 = document.createElement('option');
+        opt1.value = student.name;
+        
+        const opt2 = opt1.cloneNode(true);
+        
+        loggedByDatalist.appendChild(opt1);
+        editLoggedByDatalist.appendChild(opt2);
+      });
+    }
+    fetchStudents();
+
+    // Auth Helper
+    async function authFetch(url, options = {}) {
+      const headers = {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        ...(options.headers || {})
+      };
+      const response = await fetch(url, { ...options, headers });
+      if (response.status === 401) {
+        logout();
+        return;
+      }
+      return response;
+    }
+
+    function logout() {
+      localStorage.clear();
+      window.location.href = 'login.html';
+    }
+
+    // Page State
+    let currentPage = 1;
+    const limit = 6;
+
+    const categoryEmojis = {
+      organic: '🌱',
+      paper: '📄',
+      plastic: '🥤',
+      metal: '🥫',
+      glass: '🧪',
+      ewaste: '🔌'
+    };
+
+    // Refresh Dashboard Stats
+    async function fetchStats() {
+      const res = await authFetch('/api/stats/summary');
+      if (!res) return [];
+      const data = await res.json();
+
+      document.getElementById('statTotal').textContent = `${data.total.toFixed(1)} kg`;
+      document.getElementById('statWeek').textContent = `${data.week.toFixed(1)} kg`;
+      document.getElementById('statClasses').textContent = data.classes;
+
+      return data.by_category || [];
+    }
+
+    // Render Goals Categories
+    async function fetchGoals(categoryStats = []) {
+      const res = await authFetch('/api/goals');
+      if (!res) return;
+      const goals = await res.json();
+
+      const grid = document.getElementById('categoriesGrid');
+      grid.innerHTML = '';
+
+      goals.forEach(goal => {
+        const stat = categoryStats.find(s => s.category === goal.category);
+        const currentKg = stat ? parseFloat(stat.kg) : 0;
+        const targetKg = parseFloat(goal.target_kg);
+        const percent = Math.min(100, Math.round((currentKg / targetKg) * 100));
+        const emoji = categoryEmojis[goal.category] || '♻️';
+
+        const card = document.createElement('div');
+        card.className = 'category-card';
+
+        let editBtn = '';
+        if (currentUser.role === 'admin') {
+          editBtn = `<span class="category-edit-btn" onclick="openGoalModal('${goal.category}', ${targetKg})">Edit</span>`;
+        }
+
+        card.innerHTML = `
+          ${editBtn}
+          <div class="category-icon">${emoji}</div>
+          <div class="category-name">${goal.category}</div>
+          <div class="category-value">${currentKg.toFixed(1)} kg</div>
+          <div class="category-goal">Goal: ${targetKg} kg (${percent}%)</div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Fetch Leaderboard
+    async function fetchLeaderboard() {
+      const res = await authFetch('/api/stats/leaderboard');
+      if (!res) return;
+      const data = await res.json();
+
+      const list = document.getElementById('leaderboardList');
+      list.innerHTML = '';
+
+      if (data.length === 0) {
+        list.innerHTML = '<div style="text-align: center; color: var(--text-muted); font-size: 13px;">No entries logged yet.</div>';
+        return;
+      }
+
+      data.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'leaderboard-item';
+        div.innerHTML = `
+          <div class="rank-info">
+            <span class="rank-badge">${index + 1}</span>
+            <span>${item.class}</span>
+          </div>
+          <span style="font-weight: 700; color: var(--forest-green);">${parseFloat(item.kg).toFixed(1)} kg</span>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    // Fetch Recent Entries
+    async function fetchEntries() {
+      const cls = document.getElementById('filterClass').value;
+      const category = document.getElementById('filterCategory').value;
+      const queryParams = new URLSearchParams({
+        page: currentPage,
+        limit,
+        class: cls,
+        category
+      });
+
+      const res = await authFetch(`/api/entries?${queryParams}`);
+      if (!res) return;
+      const data = await res.json();
+
+      const tbody = document.getElementById('entriesBody');
+      tbody.innerHTML = '';
+
+      const actionsHeader = document.getElementById('actionsHeader');
+      if (currentUser.role === 'student') {
+        actionsHeader.style.display = 'none';
+      } else {
+        actionsHeader.style.display = 'table-cell';
+      }
+
+      data.entries.forEach(entry => {
+        const tr = document.createElement('tr');
+        let actionCell = '';
+
+        if (currentUser.role !== 'student') {
+          const canManage = currentUser.role === 'admin' || (currentUser.role === 'teacher' && entry.user_id === currentUser.id);
+          if (canManage) {
+            actionCell = `
+              <td class="actions-cell">
+                <button class="btn-edit" onclick='openEditEntryModal(${JSON.stringify(entry).replace(/'/g, "&apos;")})'>Edit</button>
+                <button class="btn-delete" onclick="deleteEntry('${entry.id}')">Delete</button>
+              </td>
+            `;
+          } else {
+            actionCell = `<td><span style="color: var(--text-muted); font-size: 11px;">Locked</span></td>`;
+          }
+        }
+
+        const dateStr = new Date(entry.entry_date).toLocaleDateString(undefined, {month: 'short', day: 'numeric'});
+        const emoji = categoryEmojis[entry.category] || '♻️';
+
+        tr.innerHTML = `
+          <td style="font-weight: 600;">${entry.class}</td>
+          <td style="text-transform: capitalize;">${emoji} ${entry.category}</td>
+          <td>${parseFloat(entry.kg).toFixed(1)} kg</td>
+          <td>${dateStr}</td>
+          ${actionCell}
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('pageDisplay').textContent = `Page ${currentPage} of ${Math.ceil(data.total / limit) || 1}`;
+      document.getElementById('prevPageBtn').disabled = currentPage <= 1;
+      document.getElementById('nextPageBtn').disabled = currentPage >= Math.ceil(data.total / limit);
+    }
+
+    function changePage(direction) {
+      currentPage += direction;
+      fetchEntries();
+    }
+
+    // Log Entry Submission
+    document.getElementById('entryForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const enteredName = document.getElementById('logged_by').value;
+      const studentId = studentMap[enteredName.toLowerCase()] || null;
+      const studentName = enteredName;
+
+      const payload = {
+        class: document.getElementById('class').value,
+        category: document.getElementById('category').value,
+        kg: parseFloat(document.getElementById('kg').value),
+        entry_date: document.getElementById('entry_date').value,
+        student_id: studentId,
+        logged_by: studentName,
+        notes: document.getElementById('notes').value
+      };
+
+      const res = await authFetch('/api/entries', {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
+
+      if (res && res.ok) {
+        document.getElementById('kg').value = '';
+        document.getElementById('notes').value = '';
+        refreshAll();
+      }
+    });
+
+    // Delete Entry
+    async function deleteEntry(id) {
+      if (!confirm('Are you sure you want to delete this entry?')) return;
+      const res = await authFetch(`/api/entries/${id}`, { method: 'DELETE' });
+      if (res && res.ok) {
+        refreshAll();
+      }
+    }
+
+    // Goals update modals
+    function openGoalModal(category, currentTarget) {
+      document.getElementById('editGoalCategory').value = category;
+      document.getElementById('editGoalTarget').value = currentTarget;
+      document.getElementById('modalGoalTitle').textContent = `Update ${category.toUpperCase()} Target`;
+      document.getElementById('editGoalModal').style.display = 'flex';
+    }
+
+    function closeGoalModal() {
+      document.getElementById('editGoalModal').style.display = 'none';
+    }
+
+    document.getElementById('editGoalForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const category = document.getElementById('editGoalCategory').value;
+      const target_kg = parseFloat(document.getElementById('editGoalTarget').value);
+
+      const res = await authFetch(`/api/goals/${category}`, {
+        method: 'PUT',
+        body: JSON.stringify({ target_kg })
+      });
+
+      if (res && res.ok) {
+        closeGoalModal();
+        refreshAll();
+      }
+    });
+
+    // Entry editing modal
+    function openEditEntryModal(entry) {
+      document.getElementById('editEntryId').value = entry.id || entry._id;
+      document.getElementById('editEntryClass').value = entry.class;
+      document.getElementById('editEntryCategory').value = entry.category;
+      document.getElementById('editEntryKg').value = entry.kg;
+      document.getElementById('editEntryDate').value = new Date(entry.entry_date).toISOString().slice(0, 10);
+      document.getElementById('editEntryLoggedBy').value = reverseStudentMap[entry.user_id] || entry.logged_by || '';
+      document.getElementById('editEntryModal').style.display = 'flex';
+    }
+
+    function closeEntryModal() {
+      document.getElementById('editEntryModal').style.display = 'none';
+    }
+
+    document.getElementById('editEntryForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('editEntryId').value;
+      const enteredName = document.getElementById('editEntryLoggedBy').value;
+      const studentId = studentMap[enteredName.toLowerCase()] || null;
+      const studentName = enteredName;
+
+      const payload = {
+        class: document.getElementById('editEntryClass').value,
+        category: document.getElementById('editEntryCategory').value,
+        kg: parseFloat(document.getElementById('editEntryKg').value),
+        entry_date: document.getElementById('editEntryDate').value,
+        student_id: studentId,
+        logged_by: studentName,
+        notes: ''
+      };
+
+      const res = await authFetch(`/api/entries/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(payload)
+      });
+
+      if (res && res.ok) {
+        closeEntryModal();
+        refreshAll();
+      }
+    });
+
+    // CSV Download
+    async function exportCSV() {
+      const cls = document.getElementById('filterClass').value;
+      const category = document.getElementById('filterCategory').value;
+      const queryParams = new URLSearchParams({ class: cls, category });
+      const res = await authFetch(`/api/reports/csv?${queryParams}`);
+      if (!res) return;
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `recycling_export_${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    async function refreshAll() {
+      const catStats = await fetchStats();
+      await fetchGoals(catStats);
+      await fetchLeaderboard();
+      await fetchEntries();
+      if (currentUser.role !== 'student') {
+        await fetchStudents();
+      }
+    }
+
+    refreshAll();
+    setInterval(refreshAll, 5000);
+  </script>
+</body>
+</html>
